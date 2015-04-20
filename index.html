@@ -1,0 +1,826 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+<head>
+</head>
+<body>
+This project aims at reproducing all maths through algorithms in JavaScript. Copyright 2014 Usmar Padow (amigojapan) usmpadow@gmail.com , Patrick Robotham and Greg Cox<BR>
+<BR>You should view the source to see the source code of how these functions where implemented.
+input1: <input type="text" name="input1" id="input1" value="O O O O O"><br>
+
+count program withought using the + operator.
+based on <a href=http://www.youtube.com/watch?v=15sLPp0YvQk&list=PL7F6C8576EBEDD88F>Pre-Algebra 2 - Roman Numerals: Sign-Value versus Positional Notation</a>
+anything between spaces represents an object, here Os represent coconuts. 
+First enter the number of coconuts you want into input1 (can only count from 0 to 9)<BR>
+Note:Coconuts must be seperated by spaces... do not include extra spaces, or spaces at the end<BR>
+<input type="button" onclick="count_prompt()" value="Count Coconuts" /><BR>
+
+<script type="text/javascript">
+function count_to_9(CoconutString,array) {// counts to 9 withought using the + opperator
+	if (CoconutString=="")
+		return 0;//I do this because split seems to return 1 element even when the string is empty
+	if (typeof array[0] == 'undefined')
+		return 0;
+	if (typeof array[1] == 'undefined')
+		return 1;
+	if (typeof array[2] == 'undefined')
+		return 2;
+	if (typeof array[3] == 'undefined')
+		return 3;
+	if (typeof array[4] == 'undefined')
+		return 4;
+	if (typeof array[5] == 'undefined')
+		return 5;
+	if (typeof array[6] == 'undefined')
+		return 6;
+	if (typeof array[7] == 'undefined')
+		return 7;
+	if (typeof array[8] == 'undefined')
+		return 8;
+	if (typeof array[9] == 'undefined')
+		return 9;
+}
+
+function count_prompt()
+{
+	var CoconutString=document.getElementById ( "input1" ).value
+	var CoconutArray=CoconutString.split(" ");
+	//This would do, but it would kindof be cheating because I think the lenght is caulculated using + operators
+	//alert("there are "+ CoconutArray.length + " coconuts");
+	alert("there are "+ count_to_9(CoconutString,CoconutArray) + " coconuts");
+}
+</script>
+Count up to 99 coconuts
+First enter the number of coconuts you want into input2 (can only count from 0 to 9)<BR>
+input2:<BR>
+ <textarea id="input2" rows="4" cols="50">
+O O O O O O O O O O O O O O O O O O O O O O O
+</textarea><br>
+
+<input type="button" onclick="count_99_prompt()" value="Count
+Coconuts" /><BR>
+
+
+<script type="text/javascript">
+function count_99_prompt()
+{
+	var CoconutString=document.getElementById ( "input2" ).value
+	var CoconutArray=CoconutString.split(" ");
+	var TensCoconutString="";
+	while(count_to_9(CoconutString,CoconutArray) == undefined) {// if there are more than 9 coconuts, take away 9 coconuts, increment the counter
+		CoconutArray.pop();
+		CoconutArray.pop();
+		CoconutArray.pop();
+		CoconutArray.pop();
+		CoconutArray.pop();
+		CoconutArray.pop();
+		CoconutArray.pop();
+		CoconutArray.pop();
+		CoconutArray.pop();
+		CoconutArray.pop();
+		if (TensCoconutString=="") TensCoconutString="O"; else TensCoconutString+=" O";//this is so we carry over (in coconuts) the amount for the 10's decimal place
+	}
+	var TensCoconutArray=TensCoconutString.split(" ");
+	if(count_to_9(TensCoconutString,TensCoconutArray)==0)
+		alert("there are "+ count_to_9(CoconutString,CoconutArray) + " coconuts");
+	else
+		alert("there are "+ count_to_9(TensCoconutString,TensCoconutArray).toString() + count_to_9(CoconutString,CoconutArray).toString() + " coconuts");
+}
+</script>
+
+Count as many coconuts as you like! <BR>
+
+
+Input 3: <BR>
+<textarea id="input3" rows="4" cols="50">
+O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O
+</textarea>
+<br>
+<input type="button" onclick="count_infinite_prompt()" value="Count
+Coconuts" /><BR>
+
+<script type="text/javascript">
+var nextDigit = {
+	    "0" : "1",
+	    "1" : "2",
+	    "2" : "3",
+	    "3" : "4",
+	    "4" : "5",
+	    "5" : "6",
+	    "6" : "7",
+	    "7" : "8",
+	    "8" : "9",
+	    "9" : "0",
+      };
+
+function succ_with_cheating(myNum)
+{
+      /*
+	Increases a 'number' by one.
+	A 'number' is an an array of digits in reverse order.
+	For example, the number 475 is represented as ["5", "7", "4"].
+	This version "cheats" because the exercise would be trivial 
+	if we had access to arithmetic (which the for loop uses), 
+	or the length operator (since we could just get the length of
+	the coconuts 
+      */
+      var newNum = [];
+      var carry = true;
+      var newDigit = "0";
+      for (var i = 0 ; i < myNum.length ; i++) {
+	    newDigit = myNum[i];
+	    if(carry) {
+		  newDigit = nextDigit[myNum[i]];
+	    }
+	    newNum[i] = newDigit;
+	    carry = carry && newDigit == "0";
+      }
+      if (carry) {
+	    newNum.push("1")
+      }
+      return newNum;
+}
+
+function count_infinite_prompt()
+{
+      var CoconutString=document.getElementById ( "input3" ).value;
+      var CoconutArray=CoconutString.split(" ");
+      var NumCoconuts = ["0"];
+
+      var Coco = CoconutArray.pop();
+      while(Coco != undefined){
+	    NumCoconuts = succ(NumCoconuts);
+	    Coco = CoconutArray.pop();
+      }
+      var NumString = NumCoconuts.join("")
+      alert("there are " + NumString + " coconuts.");
+}
+
+
+function succ(myNum) {
+	    /*
+	      Increases a 'number' by one.
+	      A 'number' is an an array of digits.
+	      For example, the number 475 is represented as ["4", "7", "5"].
+	      This version does not use the plus operator.
+	    */
+      var oldNum = myNum.slice() // Make a copy of the array
+      var newNum = [];
+      var carry = true;
+      var newDigit = "0";
+      while (typeof oldNum[0] != 'undefined'){
+	    newDigit = oldNum.pop();
+	    if(carry){
+		  newDigit = nextDigit[newDigit]
+	    }
+	    newNum.push(newDigit);
+	    carry = carry && newDigit == "0"; 
+      }
+      if (carry) {
+	    newNum.push("1");
+      }
+      newNum.reverse();
+      return newNum;
+}
+</script>
+
+Now we will do addition by simply concatenating the coconuts from one text field to the ones of another(notice that this plus sign is concatenation and not addition(which means it is more like saying "this pile of coconuts AND this pile of coconuts, lets count them both"<BR>
+A = <input type="text" name="input1" id="A" value="O O O O O"><br>
+B = <input type="text" name="input1" id="B" value="O O O O O"><br>
+
+<input type="button" onclick="count_add_prompt()" value="Add A + B Coconuts" /><BR>
+<script type="text/javascript">
+function count_add_prompt()
+{
+      var CoconutString=document.getElementById ( "A" ).value+" "+document.getElementById ( "B" ).value;//the concatination is done here(we need to seperate the first field from the second field with a space
+      var CoconutArray=CoconutString.split(" ");
+      var NumCoconuts = ["0"];
+
+      var Coco = CoconutArray.pop();
+      while(Coco != undefined){
+	    NumCoconuts = succ(NumCoconuts);
+	    Coco = CoconutArray.pop();
+      }
+      var NumString = NumCoconuts.join("")
+      alert("there are " + NumString + " coconuts.");
+}
+</script>
+Now that we have implemented addition, I think we can allow ourselves to use the regular + operator.<BR>
+<BR>
+Now we will do subtraction by counting the number of coconuts in Y and then poping off that amount of coconuts from the array generated from X , then counting X.<BR>
+X = <input type="text" name="input1" id="X" value="O O O"><br>
+Y = <input type="text" name="input1" id="Y" value="O O"><br>
+
+<input type="button" onclick="count_sub_prompt()" value="Subtract X - Y Coconuts" /><BR>
+<script type="text/javascript">
+function count_sub_prompt()
+{
+      var CoconutStringY=document.getElementById ( "Y" ).value;
+      var CoconutArrayY=CoconutStringY.split(" ");
+      var NumCoconutsY = ["0"];
+
+      var CocoY = CoconutArrayY.pop();
+      while(CocoY != undefined){
+	    NumCoconutsY = succ(NumCoconutsY);
+	    CocoY = CoconutArrayY.pop();
+      }
+      var NumStringY = NumCoconutsY.join("");
+
+      var CoconutStringX=document.getElementById ( "X" ).value;
+      var CoconutArrayX=CoconutStringX.split(" ");
+	  for(counter=0;counter<Math.round(NumStringY);counter++) CoconutArrayX.pop();//I am now using ++ because I allowed + (for breifness)
+      var NumCoconutsX = ["0"];
+
+      var CocoX = CoconutArrayX.pop();
+      while(CocoX != undefined){
+	    NumCoconutsX = succ(NumCoconutsX);
+	    CocoX = CoconutArrayX.pop();
+      }
+      var NumStringX = NumCoconutsX.join("")
+      alert("X coconuts minus Y coconurs is  " + NumStringX + " coconuts.");
+}
+</script>
+<!-- do later
+Now I think we can allow us to use the minus operatior in the following parts of this project.>BR>
+
+I suggest you see the following video to learn about numbers of different bases, because we are going to talk about binary numbers <a href=http://www.youtube.com/watch?v=5sS7w-CMHkU>Pre-Algebra 3 - Decimal, Binary, Octal & Hexadecimal</a><BR>
+
+Anyway, computers do subtraction in an intersting, but pretty complicated way called 2's compliment, which is done on binary numbers. But for now, lets learn the 10's compliment which allows us to do subtraction of long decimal numbers using only addition:<BR>
+-->
+<BR>
+Multiplication is done by adding something a certain amount of times, for example, if we do 3X2 we will add 3 to 3 (or add 3 two times):<BR>
+Mul1 = <input type="text" name="input1" id="Mul1" value="3"><br>
+Mul2 = <input type="text" name="input1" id="Mul2" value="2"><br>
+
+<input type="button" onclick="mul_prompt()" value="Multiply Mul1 times Mul2" /><BR>
+<script type="text/javascript">
+function mul_prompt()
+{
+    var Mul1=Math.round(document.getElementById ( "Mul1" ).value);
+    var Mul2=Math.round(document.getElementById ( "Mul2" ).value);
+	var result=0;
+	for(counter=0;counter<Mul2;counter++) result+=Mul1;//I am now using ++ because I allowed + (for breifness)
+
+    alert("Mul1 times Mul2 is  " + result);
+}
+</script>
+Now we can allow ourselves to use the * multiplication operator.<BR>
+Integer division is done by counting how many times we had to subtract a number to get it to become another number,<BR>
+For example 5 divided by 2 we do 5 - 2 - 2 (or substract 2 two times) the result of 5-2-2 is 4 which can no which if we substract it again it will be less than 0, do we take the left over 1, this is called the remainder:<BR>
+In the expression c = a / b, a is called the dividend or numerator, b the divisor or denominator and the result c is called the quotient.<BR>
+it is also noteworthy to mention that like subtraction is the opposite of addition, division is also the opposite of multiplication.<BR>
+Numerator = <input type="text" name="input1" id="Numerator" value="5"><br>
+Denominator = <input type="text" name="input1" id="Denominator" value="2"><br>
+
+<input type="button" onclick="int_div_prompt()" value="Divide Numerator by Denominator" /><BR>
+<script type="text/javascript">
+function int_div_prompt()
+{
+    var Numerator=Math.round(document.getElementById ( "Numerator" ).value);
+    var Denominator=Math.round(document.getElementById ( "Denominator" ).value);
+	var tmp=Numerator;
+	var quotient;
+	var counter;
+	if(Denominator==0) {
+		alert("Division by 0 is not allowed");
+		return;
+	}
+	for(counter=0;tmp>0 && tmp>=Denominator;counter++) {
+		tmp-=Denominator;
+		quotient=counter+1;
+	}
+	var remainder;
+	remainder=tmp;
+	
+    alert("Numerator divided by Denominator is  " + quotient + " with a remainder of " + remainder);
+}
+</script>
+Now we can allow ourselves to use the / division operator for integer parameters and floor it (so that the result is an integer).<BR>
+We can also allow ourselves to use the % modulus operator, because the remainder is the result of that operator.<BR>
+<BR>
+<BR>Fractions
+<BR>
+<BR>Object to store mixed fractions
+<script type="text/javascript">
+//Parent objects "classes"
+var Fraction = { Numerator:0, Denominator:0 };
+var MixedFraction = { Wholes:0, Numerator:0, Denominator:0 };
+//Useful functions to do fractional arrhythmic
+function GCD(a,b) {//GCD stands for Gratest Common DIvisor and is required to simplify fractions in this script
+	if(b == 0)
+		return a;
+	else
+		return GCD(b,a%b);
+}
+function simplify_fraction(result) {
+	gcd=GCD(result.Numerator,result.Denominator);
+	result.Numerator=result.Numerator/gcd;
+	result.Denominator=result.Denominator/gcd;
+	return result;
+}
+
+//useful function to clone object, it will help us when we need to make new fraction objects
+function clone(obj) {
+    // Handle the 3 simple types, and null or undefined
+    if (null == obj || "object" != typeof obj) return obj;
+
+    // Handle Date
+    if (obj instanceof Date) {
+        var copy = new Date();
+        copy.setTime(obj.getTime());
+        return copy;
+    }
+
+    // Handle Array
+    if (obj instanceof Array) {
+        var copy = [];
+        var i = 0;
+        var len = obj.length;
+        for (i = 0; i < len; ++i) {
+            copy[i] = clone(obj[i]);
+        }
+        return copy;
+    }
+
+    // Handle Object
+    if (obj instanceof Object) {
+        var copy = {};
+        for (var attr in obj) {
+            if (obj.hasOwnProperty(attr)) copy[attr] = clone(obj[attr]);
+        }
+        return copy;
+    }
+
+    throw new Error("Unable to copy obj! Its type isn't supported.");
+}
+</script>
+<BR>The following scripts are based on teh formulas on <a href=http://www.vitutor.com/arithmetic/fractions/fraction_formulas.html>this page</a>
+<BR>A Mixed fraction is a fraction which has a part with whole numbers and a part with the fractional portion (numerator over denominator)
+<BR>One operation we can do with fractions is convert them from mixed fractions to non mixed fractions, lets do that:
+<BR>For example 1 whole and one half is 3 halfs...
+<BR>MixedWholes = <input type="text" name="input1" id="MixedWholes" value="1">
+<BR>MixedNumerator = <input type="text" name="input1" id="MixedNumerator" value="1">
+<BR>MixedDenominator = <input type="text" name="input1" id="MixedDenominator" value="2">
+<BR><input type="button" onclick="convert_mix_to_fract_prompt()" value="Convert this mixed fraction to a normal fraction" /><BR>
+<script type="text/javascript">
+function convert_mix_to_fract_prompt() {
+	var MF=clone(MixedFraction);//using the useful clone function defined above
+	MF.Wholes=Math.round(document.getElementById ( "MixedWholes" ).value);
+    MF.Numerator=Math.round(document.getElementById ( "MixedNumerator" ).value);
+    MF.Denominator=Math.round(document.getElementById ( "MixedDenominator" ).value);
+	var F=clone(Fraction);//using the useful clone function defined above
+	F.Numerator=(MF.Wholes*MF.Denominator)+MF.Numerator;
+	F.Denominator = MF.Denominator;
+    alert("Numerator is  " + F.Numerator + " Denominator is " + F.Denominator);
+}
+</script>
+<BR>Simplifying fractions. In many cases, a fraction can represent the same number as a simpler fraction, here is how to do it:
+<BR>For example 20/2 in it simplest form is 10/1.
+<BR>ComplexNumerator = <input type="text" name="input1" id="ComplexNumerator" value="20">
+<BR>ComplexDenominator = <input type="text" name="input1" id="ComplexDenominator" value="2">
+<BR><input type="button" onclick="simplify_fract_prompt()" value="Simplify fraction" /><BR>
+<script type="text/javascript">
+function simplify_fract_prompt() {
+	var CF=clone(Fraction);//using the useful clone function defined above
+    CF.Numerator=Math.round(document.getElementById ( "ComplexNumerator" ).value);
+    CF.Denominator=Math.round(document.getElementById ( "ComplexDenominator" ).value);
+	var SF=clone(Fraction);//using the useful clone function defined above
+	SF=simplify_fraction(CF);
+    alert("Simplest fraction Numerator = " + SF.Numerator + " / Denominator = " + SF.Denominator);
+}
+</script>
+<BR>
+<BR>Next lets do addition, subtraction, multiplication and division and test for fraction equivalence of fractions:
+<BR>Fraction A:
+<BR>NumeratorA = <input type="text" name="input1" id="NumeratorA" value="1">
+<BR>DenominatorA = <input type="text" name="input1" id="DenominatorA" value="2">
+<BR>Fraction B:
+<BR>NumeratorB = <input type="text" name="input1" id="NumeratorB" value="1">
+<BR>DenominatorB = <input type="text" name="input1" id="DenominatorB" value="2">
+<BR><input type="button" onclick="add_fract_prompt()" value="Add Fraction A + Fraction B" /><BR>
+<script type="text/javascript">
+function add_fract_prompt() {
+	var FA=clone(Fraction);//using the useful clone function defined above
+    FA.Numerator=Math.round(document.getElementById ( "NumeratorA" ).value);
+    FA.Denominator=Math.round(document.getElementById ( "DenominatorA" ).value);
+	var FB=clone(Fraction);//using the useful clone function defined above
+    FB.Numerator=Math.round(document.getElementById ( "NumeratorB" ).value);
+    FB.Denominator=Math.round(document.getElementById ( "DenominatorB" ).value);
+	var FR=clone(Fraction);//this craction will store the result
+	
+	//This is where the addition formula comes in from http://www.vitutor.com/arithmetic/fractions/fraction_formulas.html
+	FR.Numerator=(FA.Numerator*FB.Denominator)+(FA.Denominator*FB.Numerator);
+	FR.Denominator = FA.Denominator*FB.Denominator;
+	
+	var SF=clone(Fraction);//using the useful clone function defined above
+	SF=simplify_fraction(FR);
+    alert("Result: Numerator is  " + FR.Numerator + " / Denominator is " + FR.Denominator + "\nSimplest fraction Numerator = " + SF.Numerator + " / Denominator = " + FR.Denominator);
+}
+</script>
+
+<BR><input type="button" onclick="sub_fract_prompt()" value="Subtract Fraction A - Fraction B" /><BR>
+<script type="text/javascript">
+function sub_fract_prompt() {
+	var FA=clone(Fraction);//using the useful clone function defined above
+    FA.Numerator=Math.round(document.getElementById ( "NumeratorA" ).value);
+    FA.Denominator=Math.round(document.getElementById ( "DenominatorA" ).value);
+	var FB=clone(Fraction);//using the useful clone function defined above
+    FB.Numerator=Math.round(document.getElementById ( "NumeratorB" ).value);
+    FB.Denominator=Math.round(document.getElementById ( "DenominatorB" ).value);
+	var FR=clone(Fraction);//this craction will store the result
+	
+	//This is where the subtraction formula comes in from http://www.vitutor.com/arithmetic/fractions/fraction_formulas.html
+	FR.Numerator=(FA.Numerator*FB.Denominator)-(FA.Denominator*FB.Numerator);
+	FR.Denominator = FA.Denominator*FB.Denominator;
+	
+	var SF=clone(Fraction);//using the useful clone function defined above
+	SF=simplify_fraction(FR);
+    alert("Result: Numerator is  " + FR.Numerator + " / Denominator is " + FR.Denominator + "\nSimplest fraction Numerator = " + SF.Numerator + " / Denominator = " + FR.Denominator);
+}
+</script>
+
+<BR><input type="button" onclick="mul_fract_prompt()" value="Multiply Fraction A * Fraction B" /><BR>
+<script type="text/javascript">
+function mul_fract_prompt() {
+	var FA=clone(Fraction);//using the useful clone function defined above
+    FA.Numerator=Math.round(document.getElementById ( "NumeratorA" ).value);
+    FA.Denominator=Math.round(document.getElementById ( "DenominatorA" ).value);
+	var FB=clone(Fraction);//using the useful clone function defined above
+    FB.Numerator=Math.round(document.getElementById ( "NumeratorB" ).value);
+    FB.Denominator=Math.round(document.getElementById ( "DenominatorB" ).value);
+	var FR=clone(Fraction);//this craction will store the result
+	
+	//This is where the multiplication formula comes in from http://www.vitutor.com/arithmetic/fractions/fraction_formulas.html
+	FR.Numerator=FA.Numerator*FB.Numerator;
+	FR.Denominator = FA.Denominator*FB.Denominator;
+	
+	var SF=clone(Fraction);//using the useful clone function defined above
+	SF=simplify_fraction(FR);
+    alert("Result: Numerator is  " + FR.Numerator + " / Denominator is " + FR.Denominator + "\nSimplest fraction Numerator = " + SF.Numerator + " / Denominator = " + FR.Denominator);
+}
+</script>
+
+<BR><input type="button" onclick="div_fract_prompt()" value="Divide Fraction A / Fraction B" /><BR>
+<script type="text/javascript">
+function div_fract_prompt() {
+	var FA=clone(Fraction);//using the useful clone function defined above
+    FA.Numerator=Math.round(document.getElementById ( "NumeratorA" ).value);
+    FA.Denominator=Math.round(document.getElementById ( "DenominatorA" ).value);
+	var FB=clone(Fraction);//using the useful clone function defined above
+    FB.Numerator=Math.round(document.getElementById ( "NumeratorB" ).value);
+    FB.Denominator=Math.round(document.getElementById ( "DenominatorB" ).value);
+	var FR=clone(Fraction);//this craction will store the result
+	
+	//This is where the division formula comes in from http://www.vitutor.com/arithmetic/fractions/fraction_formulas.html
+	FR.Numerator=FA.Numerator*FB.Denominator;
+	FR.Denominator = FA.Denominator*FB.Numerator;
+	
+	var SF=clone(Fraction);//using the useful clone function defined above
+	SF=simplify_fraction(FR);
+    alert("Result: Numerator is  " + FR.Numerator + " / Denominator is " + FR.Denominator + "\nSimplest fraction Numerator = " + SF.Numerator + " / Denominator = " + FR.Denominator);
+}
+</script>
+<BR>This function is nessesary because sometimes fractions may appear to be different but may be actually the same value
+<BR>For example 10/20 is equivalent to 1/2
+<BR><input type="button" onclick="eq_fract_prompt()" value="Is Fraction A equivalent to Fraction B?" /><BR>
+<script type="text/javascript">
+function eq_fract_prompt() {
+	var FA=clone(Fraction);//using the useful clone function defined above
+    FA.Numerator=Math.round(document.getElementById ( "NumeratorA" ).value);
+    FA.Denominator=Math.round(document.getElementById ( "DenominatorA" ).value);
+	var FB=clone(Fraction);//using the useful clone function defined above
+    FB.Numerator=Math.round(document.getElementById ( "NumeratorB" ).value);
+    FB.Denominator=Math.round(document.getElementById ( "DenominatorB" ).value);
+
+	//This is where the equivalence formula comes in from http://www.vitutor.com/arithmetic/fractions/fraction_formulas.html
+	if(FA.Numerator*FB.Denominator==FA.Denominator*FB.Numerator)
+
+		alert("Fractions are equal");
+	else
+		alert("Fractions are not equal");
+}
+</script>
+
+
+<BR>
+<BR>***I leave the task of doing powers of fractions to someone else, please email me the answer to usmpadow@gmail.com
+<BR>
+<BR>
+<BR>"Power of" function(We are implementing this function because i is nessesary in the Floating point division operation.)
+<BR>Exponent = <input type="text" name="input1" id="Exponent" value="10">
+<BR>Number = <input type="text" name="input1" id="NumberToEx" value="3">
+<BR><input type="button" onclick="pow_div_prompt()" value="Calculate Number to the power of Exponent" /><BR>
+<script type="text/javascript">
+function pow_div_prompt() {
+	//***there is something wrong with this function, help please
+    var Exponent=Math.round(document.getElementById ( "Exponent" ).value);
+    var Number=Math.round(document.getElementById ( "NumberToEx" ).value);
+	var result=1;
+	for(counter=0;counter<Number;counter++) result*=Exponent;
+
+    alert("Number to the power of Exponent is  " + result +"Number to the power of Exponent is  " + Math.pow(Exponent,Number));
+}
+</script>
+<BR>Now we can us the Math.pow() function in the following scripts.
+<BR>
+<BR>*** < operators should be implemented because it is necessary for Floating point division.
+<BR>Number1 = <input type="text" name="input1" id="NumberLess1" value="10">
+<BR>Number2 = <input type="text" name="input1" id="NumberLess2" value="3">
+<BR><input type="button" onclick="less_than_prompt()" value="Calculate if Number1 is less than Number2" /><BR>
+<script type="text/javascript">
+function less_than(Number1, Number2) {
+	if (Number1-Number2==0) return false;//the numbers are equal
+	var tmp=Number1;
+	for(counter=0;counter<Number2;counter++) {// we could make this a bit less verbose, but I left it this way because it is easier to understand
+		tmp-=1;
+		if (tmp==0) return true;//the numbers are equal
+	}
+	return false;
+}
+function less_than_prompt() {
+	//***there is something wrong with this function, help please
+    var Number1=Math.round(document.getElementById ( "NumberLess1" ).value);
+    var Number2=Math.round(document.getElementById ( "NumberLess2" ).value);
+	if(less_than(Number1, Number2))
+		alert("Number1 is less than Number2");
+	else
+		alert("Numer1 is not less than Number2");
+}
+</script>
+
+<BR>
+Floating point division, with precision parameter<BR>
+FPNumerator = <input type="text" name="input1" id="FPNumerator" value="5"><br>
+FPDenominator = <input type="text" name="input1" id="FPDenominator" value="2"><br>
+precision = <input type="text" name="input1" id="precision" value="1"><br>
+
+<input type="button" onclick="FP_div_prompt()" value="FPDivide Numerator by FPDenominator" /><BR>
+<script type="text/javascript">
+function FP_div_prompt()
+{
+    var FPNumerator=Math.round(document.getElementById ( "FPNumerator" ).value);
+    var FPDenominator=Math.round(document.getElementById ( "FPDenominator" ).value);
+	var precision=Math.round(document.getElementById ( "precision" ).value);
+	var tmp=FPNumerator*Math.pow(10,precision);//This is cheating, because I still have not implemented power, but I will replace it//this comment is deprecated//this will give a precision up to the hundreds, if you want up to the thousands change it to 1000 and so on
+	var tmp2=Math.floor(Math.round(tmp)/Math.round(FPDenominator));//also, later need to implement floor and round, note this is an integer division, that is why it is allowed here
+	var result="";
+	result=tmp2.toString();
+	//Now lets add teh floating point in teh right place
+	String.prototype.splice = function( idx, rem, s ) {
+		return (this.slice(0,idx) + s + this.slice(idx + Math.abs(rem)));//this will give a precision up to the hundreds, if you want up to the thousands change to -3 and so on
+	};
+	//it would seem here we could get rid of all zeros to the right of the ., for example 0.0230000  could be made into 0.023, at least that seems to be the behaviour of my calculator
+	result = result.splice(result.length-precision, 0, "." );
+	if(FPNumerator<FPDenominator) 	result = "0"+result;//hmm, I guess using > and < is also cheating if I have not implemented them...
+    alert("FPNumerator divided by FPDenominator is  " + result);
+	//it seems to work for 5/2  but not well for 2/3, I get .several sixes and then 0s. while the number actually may be right, it is missing the 0 before the .
+	//also, unlike all the previous functions, this one still lacks a clear explanation of how it works, and I am now sure I can explain it.
+}
+</script>
+Now we can allow ourselves to use the / operator on floating point numbers
+
+<BR>Maximum Number = <input type="text" name="input1" id="maxnum" value="2">
+<BR><input type="button" onclick="siede_prompt()" value="Calculate primes up to Maximum Number" /><BR>
+<script type="text/javascript">
+function siede_prompt() {
+    var maxnum=Math.round(document.getElementById ( "maxnum" ).value);
+    //make an array of booleans with the length of the largest number fill it with true except for items 0 and 1, which we will set to false
+    var primes_array=new Array();
+    primes_array.push(false);//set item 0 to true
+    primes_array.push(false);//set item 1 to true
+    
+    for(counter=2;counter<maxnum;counter++) {
+        primes_array.push(true);
+    }
+
+    var Current_Prime_Number=2;
+    var Prime_Numbers_Are_Left=true;
+    while(Prime_Numbers_Are_Left) {
+        var Pointer_To_Current_Position=Current_Prime_Number;
+        while(Pointer_To_Current_Position < maxnum){
+            Pointer_To_Current_Position += Current_Prime_Number;
+            primes_array[Pointer_To_Current_Position] = false;
+         }
+         //find the first true value
+        for(counter=Current_Prime_Number+1;counter<maxnum;counter++) {
+            //if the if folloing if  is never true, then brake out of the outer loop
+            Prime_Numbers_Are_Left=false;
+            if(primes_array[counter]==true) {
+                Prime_Numbers_Are_Left=true;
+                Current_Prime_Number=counter;
+                break;
+            }
+        }
+    }
+    //construct meaningfull string for output
+    var output="";
+     for(counter=2;counter<maxnum;counter++) {
+        if(primes_array[counter]==true) {
+			output+=" "+counter;
+		}
+    }
+    alert("Primes up to Max Number are:  " + output);
+}
+</script>
+
+<!-- is modulous also the remainder? YES
+
+Show new maths from scratch program, ask if modulus is the remainder, I think it is
+0.1 is one tenth, 0.5 is 5 tenths... which is a half...0.25 2 is two tenths and 5 one-hundredths.. 
+so  1/4 is 25% which is 0.25 multiply 0.25 by 100 to get 25, add %. 1/4 is 0.25(2 is 2 tenths, 1 tenth is 10 100ths... 
+so there are 20 hundredths, plus five hundreds, which is 25 hundredths) there are 25 hundredths in 1/4... 
+to convert a whole number to hundreds, you multiply it by 100. 3 pizzas is 6 half pizzas 3=1/2*6 1/2*4=2 1/2*10=5 is 
+the same as slicing something in half, multiplying 1/2 is the same as dividing by 2. 
+multiplying by 1/3 is the same as dividing by 3. multiplying by 1/7 is the same as dividing by 7. 2*1/7 is the same as 
+dividing 2 by 7 which is 2 7ths. 3*1/10=three tenths.to get hundredths you multiply time 100.100*1/4 is the same as 
+dividing 100 by 4 which is 25(integer division) 10*1/4 is the same as dividing 10 by 4 which would be 2 by with a 
+remainder of 2, which is.
+
+it would seem that if I divide 100 by 4 I would get 25 which is the part that goes to the right of the point of 0.25
+1000/4 would give me a precision of 3, 10000/4 would give me a precision of 4 and so on...
+
+
+2/3 of a pizza2 boxes is 1 and 1/3
+box has 2/7ths of a pizza 3 boxes 3*2 is 6 7ths of a pizza 
+
+these two things are the same:
+10/4
+10 x 1/4
+
+pizza in each box is 2/7ths of as pizza
+[22:53:42] amigojapan2: 3 boxes
+[23:00:51 | Edited 23:01:00] amigojapan2: 3*2/7ths=6/7ths
+[23:01:33] Gregory Cox: 3 x (2/7) =
+[23:01:44] Gregory Cox: 100 x (5/2) = ?
+[23:02:41] amigojapan2: 500/2 which is an integer division
+Gregory Cox
+
+When you miltiply a fraction, the numerator gets multiplies by that number, but not the denomenator.
+
+
+divigin 10 by the denominator, I can get the 10ths part,   dividing 100 by the 
+denominator I can get the hundreths part(in function, send pressision)
+
+problem with FPdivision:
+amigojapan	Grey_Fox: can you take a look at the script again? I got help from Greg to make floating point division, but i cant seem to get it just right.... when I do 5/2 it works fine, I get 2.5, but when I do 3/2 I get .6666666666666666000000000 there should be a 0 at leats ath the front, do I need to appent it to the string? http://amigojapan.duckdns.org/math_from_scratch/
+[22:48]	Grey_Fox	amigojapan, what precision are you using?
+[22:49]	amigojapan	Grey_Fox: anything, like something over 10
+[22:49]	Grey_Fox	I can't replicate the bug
+[22:49]	amigojapan	hmm, let me try again Grey_Fox
+[22:49]	Grey_Fox	amigojapan, oh, got it
+[22:50]	Grey_Fox	amigojapan. The decimal point occurs on the previous line
+[22:50]	amigojapan	Grey_Fox: sorry, I ment 2/3 precission 20
+[22:53]	Grey_Fox	amigojapan: You need to append the zero at the front.
+[22:54]	amigojapan	ok Grey_Fox , so in the case that the numerator is smaller than the denominator, I should append a 0>
+[22:54]	amigojapan	?
+[22:54]	amigojapan	every case?
+[22:58]	amigojapan	Grey_Fox: yet another task I want to leave up to you is implemeting pow(magnitude,number), cause I used Math.pow() but I have not implemented it, and it seems rather complicated to implement with the tools I have up to now
+[22:59]	Grey_Fox	amigojapan yes, you should always append
+
+I have not tried it, but this seems to be a definition of pow in python:
+def pow(base, exponent):
+    if exponent == 0:
+        return 1
+    elif exponent < 0:
+        return 1 / pow(base, -exponent)
+    elif exponent % 2 == 0:
+        half_pow = pow(base, exponent // 2)
+        return half_pow * half_pow
+    else:
+        return base * pow(base, exponent - 1)
+
+implementing Math.pow(exponent, number)
+amigojapan	Grey_Fox: any idea how to implement pow()?
+[00:17]	amigojapan	Grey_Fox: pow is something multiplied by itself a certain number of times?
+[00:19]	Grey_Fox	amigojapan: Yes.
+
+Fraction operations
+ Addition
+ identiry 0
+ 2+3+4+5 order does not matter, commutative property 
+ [15:44:54] Gregory Cox: 10 - 5 - 3 = 10 - 3 - 5
+[15:45:40] Gregory Cox: 10 - (5 - 3) is different
+10 - 5 - 3 means (10 - 5) - 3
+[15:46:48] Gregory Cox: 10 + (-5) + (-3)
+(-3) + (-5) + 10
+inverse 3' inverse is -3(the inverse of a number is the same number negative)
+Multiplication
+Identiry is 1
+2*3*4*5 . comunitive property applies.
+what number multiplied by 5 would result in 1?
+X*2=1
+2 * (1/2)=1 so the inverse of 2 is 1/2
+5*(1/5)=1
+(***) X*(1/X)=1 so the inverse of X is 1/X
+and the inverse of 1/23 would be 23, so the inverse of 1/x would be x
+23 * 5 * (1/23) communitive applies 23*(1/23)=1*5=1
+Connection between multiplication and divition
+2/X=1 2/2=1
+2*1/2=1
+23/23=1
+23*(1/23)=1
+
+1*1/2=1/2
+(1/2)=a half
+1*1/3=1/3
+1/3=a third
+2*1/3 two boxes of pizza with each box containing a slice of a pizza split into trhee parts.=two thinrds 2/3
+7 divided by 29=seven twoenty ningths
+7 * (1/29)= seven twentyninghths
+
+(***) inverse of 1/3=1/(1/3)
+what is 1/(1/2)
+the inverse of 1/2 which is 2
+1/1/X is the inverse of 1/X which is X
+________________________
+|important first steps |
+|a divided by b = a/b  |
+|a * (1/b) = a/b       |
+|1/1/X is the inverse of 1/X which is X|
+|1/(1/x) = x           |
+-----------------------|
+
+Multiplication of fractions:
+(1/2) * (1/3)
+
+2 * 3 * (1/2) * (1/3) @ 3*(1/3)=3/3=1
+2*(1/2)=1 and 3*1/3=1 so it is 1 * 1 which is 1
+2 * 3 * (1/2) * (1/3) = 1
+[17:15:37] Gregory Cox: let x be (1/2) * (1/3)
+2 * 3 * x = 1
+6 * x = 1
+x=1/2*1/3 which is teh inverse of 6 which is 1/6
+
+(1/3) * (1/4)
+3 * 4(1/3) * (1/4)
+3 * (1/3)=1 and 4*(1/4)  is = 1 which is 1*1 which is 1
+3 * 4(1/3) * (1/4)=1
+let x be (1/2) * (1/4)
+3 * 4 * x =1
+12 * x = 1
+x=1/3 *1/4 which is the inverse of 12 which is 1/12
+
+(1/a) * (1/b)
+a * b * (1/a) * (1/b)
+a * (1/a)=1 and b * (1/b)=1
+a * b * (1/a) * (1/b) =1
+let x be (1/a) * (1/b)
+a * b * x = 1
+a * b *x =1
+x=1/a*1/b which is the inverse of a * b which is 1/a * b
+
+(2/3) * (1/5)
+(1/3)*2 =(2/3)
+(2/3) =(1/3)*2
+(1/3)*2 * (1/5)
+1/3*5=1/15
+2*(1/15)|from teh rules:a * (1/b) = a/b|=2/15
+(2/3) * (2/5) = (2*2)/(3*5)
+[18:04:56] Gregory Cox: = 4/15
+[18:05:40] Gregory Cox: (2/3) * (2/5) = 2 * (1/3) * 2 * (1/5)
+[18:06:04] Gregory Cox: = 2 * 2 * (1/3) * (1/5)
+[18:06:23] Gregory Cox: = 2 * 2 * (1/(3*5))
+[18:07:37] Gregory Cox: = (2*2) /(3*5)
+[18:07:37] Gregory Cox: = (2*2) /(3*5)
+
+(2/3) * (2/5)
+(1/3)*2 = (2/3)
+then (1/5) *2 = (2/5)
+1/3*5=1/15
+
+1/(1/3)
+note: 1/(1/3) is the same as 1 divided by 1/3
+first step: what is 7 * 29 * (1/29)?=1
+why floating point numbers are called floating point
+[16:22:20] Gregory Cox: 3.5e9 -> 3 500 000 000
+[16:23:46] Gregory Cox: 3.5e3
+[16:23:56] amigojapan2: 35000
+[16:24:09] amigojapan2: 3500
+[16:25:08] Gregory Cox: 3500.00000
+[16:25:41] Gregory Cox: 3.50000e3
+[16:26:21] amigojapan2: 0000000003.5
+[16:29:43] Gregory Cox: normally: 3500.
+[16:30:09] Gregory Cox: floating: 3(.)500 e3
+[16:33:33] Gregory Cox: 0.7534987534
+[16:34:36] Gregory Cox: 7534987534 billion
+[16:35:10] Gregory Cox: 753.4987534
+decimal fractions numbers like 100.123 (which is called fixed point decimal fractions) as oposed to teh one using the e notation
+
+finding prime numbers https://www.youtube.com/watch?v=Tr9FZUhfJR4&list=PL7F6C8576EBEDD88F
+siede of aritostinies:
+to find all the prime number uo to say 100, start with 2 then you go through the list and get rid of all the numbers that are divisible by 2, then you go to the next prime number and you repeat the process of elminating hte numbers dividable by that number. stop condition is: when the square of the number you are looking at(100) is 
+Problem: Find all prime numbers less than N=100
+the lkist should start at 2
+[21:35:08] ClockworkUniverse: Pop a number x from the start of the list. Get rid of all numbers in the list that have x as a factor.
+pop off 2 then get rid of numbers where x/2 has no remainder
+[21:35:17] ClockworkUniverse: Stopping condition: when x*x > 100, stop.
+then if 2*2 where > 100 then I would stop, then I go to the next number in the list(which is surely prime).
+[21:36:46] ClockworkUniverse: Get rid of all numbers y that satisfy the following condition: y/x has no remainder.
+[21:37:42] ClockworkUniverse: When there no remainder when you divide by a number, then that number is a factor.
+
+
+then do finding the prime factors of a number, from video https://www.youtube.com/watch?v=Gf92xvPxrAQ&list=PL7F6C8576EBEDD88F
+
+computing the prime factorization of a number
+ -->
+</body>
+</html>
